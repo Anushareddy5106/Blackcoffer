@@ -1,27 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Chart from "chart.js/auto";
-import "../styles/style.css";
+
+import "./styles.css";
 
 let chart = 0;
-const API = axios.create({ baseURL: "http://localhost:5000" });
-const BarChart = () => {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await API.get("/api/data");
-      setData(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
+const LineChart = ({ data }) => {
   useEffect(() => {
     const avg = () => {
       const intensityByYear = {};
@@ -61,10 +44,10 @@ const BarChart = () => {
       const labels = averageIntensities.map((d) => d.year);
 
       //console.log(labels);
-      const ctx = document.getElementById("bar_chart").getContext("2d");
+      const ctx = document.getElementById("line_chart").getContext("2d");
 
       let configuration = {
-        type: "bar",
+        type: "line",
         data: {
           labels: labels,
           datasets: [
@@ -106,12 +89,16 @@ const BarChart = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   return (
-    <div className="chart_box" id="bar_id">
+    <div className="chart_box" id="line_id">
       <h2>Intensity and Likelihood Visualization</h2>
-      <canvas id="bar_chart"></canvas>
+      <canvas id="line_chart"></canvas>
     </div>
   );
 };
 
-export default BarChart;
+export default LineChart;

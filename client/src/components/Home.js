@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import Card from "./Card.js";
+import "./styles.css";
+import ChartsContainer from "./charts/ChartsContainer";
+import CardsContainer from "./cards/CardsContainer";
 
 const API = axios.create({ baseURL: "http://localhost:5000" });
 
-const CardList = () => {
+const Home = ({ chart }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -23,12 +24,19 @@ const CardList = () => {
   };
 
   return (
-    <div className="card_list">
-      {/* {data.map((i) => (
-        <Card report={i} />
-      ))} */}
+    <div className="home">
+      {" "}
+      {chart ? (
+        <>
+          <ChartsContainer data={data} />{" "}
+        </>
+      ) : (
+        <>
+          <CardsContainer data={data} />{" "}
+        </>
+      )}
     </div>
   );
 };
 
-export default CardList;
+export default Home;

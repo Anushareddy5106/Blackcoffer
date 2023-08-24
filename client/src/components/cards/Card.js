@@ -1,13 +1,14 @@
 import React from "react";
-//import { IoLocationOutline } from "react-icons/io5";
+import "./styles.css";
 
 const Card = ({ report }) => {
-  const year = report && report.start_year.split(" ")[2];
-  const month = report && report.start_year.split(" ")[0].slice(0, 3);
-  const day = report && report.start_year.split(" ")[1];
+  // console.log(report);
+  const year = report && report.added.split(" ")[2];
+  const month = report && report.added.split(" ")[0].slice(0, 3);
+  const day = report && report.added.split(" ")[1];
 
   return (
-    <div className="report-card bg-light d-flex flex-row h-100">
+    <div className="card">
       <div className="date-time-container p-2 py-3 d-flex flex-row justify-content-between align-items-center border bg-light-01 fs-small">
         <span>{year}</span>
         <span className="separator my-2"></span>

@@ -1,32 +1,16 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Chart from "chart.js/auto";
-import "../styles/style.css";
+
+import "./styles.css";
 
 let chart = 0;
-const API = axios.create({ baseURL: "http://localhost:5000" });
-const LineChart = () => {
-  const [data, setData] = useState([]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await API.get("/api/data");
-      setData(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
+const PolarAreaChart = ({ data }) => {
   useEffect(() => {
     const avg = () => {
       const intensityByYear = {};
 
-      data.forEach((entry) => {
+      data.map((entry) => {
         if (entry.start_year in intensityByYear) {
           intensityByYear[entry.start_year].push(entry.intensity);
         } else {
@@ -61,10 +45,10 @@ const LineChart = () => {
       const labels = averageIntensities.map((d) => d.year);
 
       //console.log(labels);
-      const ctx = document.getElementById("line_chart").getContext("2d");
+      const ctx = document.getElementById("polar_chart").getContext("2d");
 
       let configuration = {
-        type: "line",
+        type: "polarArea",
         data: {
           labels: labels,
           datasets: [
@@ -107,11 +91,11 @@ const LineChart = () => {
   }, [data]);
 
   return (
-    <div className="chart_box" id="line_id">
+    <div className="chart_box" id="polar_id">
       <h2>Intensity and Likelihood Visualization</h2>
-      <canvas id="line_chart"></canvas>
+      <canvas id="polar_chart"></canvas>
     </div>
   );
 };
 
-export default LineChart;
+export default PolarAreaChart;

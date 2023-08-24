@@ -1,0 +1,26 @@
+nav{
+    background-color: black;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.rightnav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap:100px;
+}
+
+
+.charts{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+
+
+

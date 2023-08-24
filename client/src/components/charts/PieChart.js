@@ -1,31 +1,16 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Chart from "chart.js/auto";
-import "../styles/style.css";
+
+import "./styles.css";
+
 let chart = 0;
-const API = axios.create({ baseURL: "http://localhost:5000" });
-const PieChart = () => {
-  const [data, setData] = useState([]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await API.get("/api/data");
-      setData(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
+const PieChart = ({ data }) => {
   useEffect(() => {
     const avg = () => {
       const intensityByYear = {};
 
-      data.forEach((entry) => {
+      data.map((entry) => {
         if (entry.start_year in intensityByYear) {
           intensityByYear[entry.start_year].push(entry.intensity);
         } else {
@@ -82,7 +67,7 @@ const PieChart = () => {
           ],
         },
         options: {
-          radius: "80%",
+          radius: "60%",
           responsive: true,
         },
       };
