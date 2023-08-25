@@ -8,4 +8,19 @@
     padding: 20px;
     background: #eeeeee;
     border-radius: 10px;
+   
+   
+}
+
+.ll{
+    padding:5px;
+}
+.bold{
+    font-weight: bold;
+}
+.intensity-c,.likelihood-c,.relevance-c{
+    border: 1px solid grey;
+    border-radius: 2px;
+    margin:5px;
+    padding: 5px;
 }

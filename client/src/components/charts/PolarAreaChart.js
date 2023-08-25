@@ -1,49 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Chart from "chart.js/auto";
+import Filter from "../Filter";
+
+import { average } from "../../utils/average";
 
 import "./styles.css";
 
 let chart = 0;
 
 const PolarAreaChart = ({ data }) => {
+  const [filter, setFilter] = useState("start_year");
+
   useEffect(() => {
-    const avg = () => {
-      const intensityByYear = {};
+    const averageIntensities = average(data, filter, "intensity");
+    const averageLikelihoods = average(data, filter, "likelihood");
+    const averageRelevances = average(data, filter, "relevance");
 
-      data.map((entry) => {
-        if (entry.start_year in intensityByYear) {
-          intensityByYear[entry.start_year].push(entry.intensity);
-        } else {
-          intensityByYear[entry.start_year] = [entry.intensity];
-        }
-      });
-
-      console.log(intensityByYear);
-
-      const averageIntensities = Object.entries(intensityByYear).map(
-        ([year, intensities]) => {
-          const sum = intensities.reduce((acc, val) => acc + val, 0);
-          return { year, averageIntensity: sum / intensities.length };
-        }
-      );
-
-      console.log(averageIntensities);
-
-      return averageIntensities;
-    };
-    const averageIntensities = avg();
     const createChart = () => {
-      // const intensityData = data
-      //   .map((d) => d.end_year >= 2017 && d.end_year <= 2030 && d.intensity)
-      //   .filter((d) => d !== false);
-
-      // const labels = data
-      //   .map((d) => d.end_year >= 2017 && d.end_year <= 2030 && d.end_year)
-      //   .filter((d) => d !== false);
-
-      const intensityData = averageIntensities.map((d) => d.averageIntensity);
-      const labels = averageIntensities.map((d) => d.year);
-
+      const labels = averageIntensities.map((d) =>
+        d.filterOption === "null" ? "Others" : d.filterOption
+      );
+      console.log(averageIntensities);
       //console.log(labels);
       const ctx = document.getElementById("polar_chart").getContext("2d");
 
@@ -54,7 +31,7 @@ const PolarAreaChart = ({ data }) => {
           datasets: [
             {
               label: "Intensity",
-              data: intensityData,
+              data: averageIntensities.map((d) => d.average),
               backgroundColor: [
                 "rgba(255, 99, 132, 0.6)",
                 "rgba(54, 162, 235, 0.6)",
@@ -62,7 +39,7 @@ const PolarAreaChart = ({ data }) => {
                 "rgba(75, 192, 192, 0.6)",
                 "rgba(153, 102, 255, 0.6)",
               ],
-              borderColor: "rgba(75, 192, 192, 1)",
+              //borderColor: "rgba(75, 192, 192, 1)",
               borderWidth: 1,
             },
           ],
@@ -88,12 +65,19 @@ const PolarAreaChart = ({ data }) => {
     if (data.length > 0) {
       createChart();
     }
-  }, [data]);
+  }, [data, filter]);
 
   return (
     <div className="chart_box" id="polar_id">
-      <h2>Intensity and Likelihood Visualization</h2>
-      <canvas id="polar_chart"></canvas>
+      <div className="chart-head">
+        <h2>Polar Area Chart</h2>
+        <Filter
+          id={"polar-area-filter"}
+          filter={filter}
+          setFilter={setFilter}
+        />
+      </div>
+      <canvas id="polar_chart" className="chart-canvas"></canvas>
     </div>
   );
 };

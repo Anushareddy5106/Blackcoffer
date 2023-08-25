@@ -1,47 +1,24 @@
 import React, { useState, useEffect } from "react";
 import Chart from "chart.js/auto";
+import Filter from "../Filter";
+
+import { average } from "../../utils/average";
 
 import "./styles.css";
 
 let chart = 0;
 const LineChart = ({ data }) => {
+  const [filter, setFilter] = useState("end_year");
+
   useEffect(() => {
-    const avg = () => {
-      const intensityByYear = {};
+    const averageIntensities = average(data, filter, "intensity");
+    const averageLikelihoods = average(data, filter, "likelihood");
+    const averageRelevances = average(data, filter, "relevance");
 
-      data.forEach((entry) => {
-        if (entry.start_year in intensityByYear) {
-          intensityByYear[entry.start_year].push(entry.intensity);
-        } else {
-          intensityByYear[entry.start_year] = [entry.intensity];
-        }
-      });
-
-      console.log(intensityByYear);
-
-      const averageIntensities = Object.entries(intensityByYear).map(
-        ([year, intensities]) => {
-          const sum = intensities.reduce((acc, val) => acc + val, 0);
-          return { year, averageIntensity: sum / intensities.length };
-        }
-      );
-
-      console.log(averageIntensities);
-
-      return averageIntensities;
-    };
-    const averageIntensities = avg();
     const createChart = () => {
-      // const intensityData = data
-      //   .map((d) => d.end_year >= 2017 && d.end_year <= 2030 && d.intensity)
-      //   .filter((d) => d !== false);
-
-      // const labels = data
-      //   .map((d) => d.end_year >= 2017 && d.end_year <= 2030 && d.end_year)
-      //   .filter((d) => d !== false);
-
-      const intensityData = averageIntensities.map((d) => d.averageIntensity);
-      const labels = averageIntensities.map((d) => d.year);
+      const labels = averageIntensities.map((d) =>
+        d.filterOption === "null" ? "Others" : d.filterOption
+      );
 
       //console.log(labels);
       const ctx = document.getElementById("line_chart").getContext("2d");
@@ -53,21 +30,27 @@ const LineChart = ({ data }) => {
           datasets: [
             {
               label: "Intensity",
-              data: intensityData,
-              backgroundColor: [
-                "rgba(255, 99, 132, 0.6)",
-                "rgba(54, 162, 235, 0.6)",
-                "rgba(255, 206, 86, 0.6)",
-                "rgba(75, 192, 192, 0.6)",
-                "rgba(153, 102, 255, 0.6)",
-              ],
-              borderColor: "rgba(75, 192, 192, 1)",
+              data: averageIntensities.map((d) => d.average),
+              backgroundColor: "blue",
+              borderWidth: 1,
+            },
+            {
+              label: "Likelihood",
+              data: averageLikelihoods.map((d) => d.average),
+              backgroundColor: "black",
+              borderWidth: 1,
+            },
+            {
+              label: "Relevance",
+              data: averageRelevances.map((d) => d.average),
+              backgroundColor: "yellow",
               borderWidth: 1,
             },
           ],
         },
         options: {
           responsive: true,
+
           scales: {
             y: {
               beginAtZero: true,
@@ -82,12 +65,13 @@ const LineChart = ({ data }) => {
       } else {
         chart = new Chart(ctx, configuration);
       }
+      chart.resize(2000, 700);
     };
 
     if (data.length > 0) {
       createChart();
     }
-  }, [data]);
+  }, [data, filter]);
 
   useEffect(() => {
     console.log(data);
@@ -95,8 +79,13 @@ const LineChart = ({ data }) => {
 
   return (
     <div className="chart_box" id="line_id">
-      <h2>Intensity and Likelihood Visualization</h2>
-      <canvas id="line_chart"></canvas>
+      <div className="chart-head">
+        <h2>Line Chart</h2>
+        <Filter id={"line-filter"} filter={filter} setFilter={setFilter} />
+      </div>
+      <div className="canvas-container">
+        <canvas id="line_chart" className="chart-canvas"></canvas>
+      </div>
     </div>
   );
 };

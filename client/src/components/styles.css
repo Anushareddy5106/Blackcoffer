@@ -3,23 +3,39 @@ nav{
     padding: 20px;
     color: white;
     text-align: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 85% 15%;
+    /* flex-direction: row;
+    justify-content: space-between; */
 }
 
+.leftnav{
+    font-weight: bolder;
+    font-size: 30px;
+}
 .rightnav{
+    /* margin: 0px 20px; */
+    margin: 0px 90px 0px 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-items: center;
     gap:100px;
 }
 
-
-.charts{
-    display: grid;
-    grid-template-columns: 50% 50%;
+.sidebtn{
+    padding: 3px 10px;
+    /* background: white; */
+    border-radius: 10px;
+    color: white;
+    border-bottom: 1px solid white;
+    cursor: pointer;
+    box-shadow: 0 1px 5px inset rgba(255,255,255,0.2);
 }
+
+
+
+
 
 
 

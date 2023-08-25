@@ -13,8 +13,10 @@ const ChartsContainer = ({ data }) => {
     <div className="charts">
       <BarChart data={data} />
       <LineChart data={data} />
-      <PieChart data={data} />
-      <RadarChart data={data} />
+      <div className="double-charts">
+        <PieChart data={data} />
+        <RadarChart data={data} />
+      </div>
       <ScatterChart data={data} />
       <PolarAreaChart data={data} />
     </div>

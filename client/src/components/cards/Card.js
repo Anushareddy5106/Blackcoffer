@@ -9,37 +9,29 @@ const Card = ({ report }) => {
 
   return (
     <div className="card">
-      <div className="date-time-container p-2 py-3 d-flex flex-row justify-content-between align-items-center border bg-light-01 fs-small">
+      <div className="date-container ll">
         <span>{year}</span>
-        <span className="separator my-2"></span>
+        <span className="separator"></span>
         <span>{month + " " + day} </span>
       </div>
-      <div className="card-conten p-3">
-        <p className="m-0 fw-bold">{report.insight && report.insight}</p>
-        <span className="fs-small">
+      <div className="card-content ">
+        <p className="insight-c ll bold">{report.insight && report.insight}</p>
+        <span className="spt-c ll">
           {report.sector && report.sector + ","}{" "}
           {report.pestle && report.pestle + ","} {report.topic && report.topic}
         </span>
-        <p className="text-secondary m-0 mb-3 fs-small">
-          {/* <IoLocationOutline className="me-1 mb-1" /> */}
-          {report.country && report.country}
+        <p className="country-c ll bold">
+          &#xe567;{report.country && report.country}
         </p>
-
-        <span className="badge badge-sm border border-secondary text-dark me-1">
-          Intensity : {report.intensity}
-        </span>
-        <span className="badge badge-sm border border-secondary text-dark me-1">
-          Likelihood : {report.likelihood}
-        </span>
-        <span className="badge badge-sm border border-secondary text-dark me-1">
-          Relevance : {report.relevance}
-        </span>
-        <p className="text-secondary m-0 mt-1 fs-small">
-          {report.title && report.title}
-        </p>
-        <p className="text-end text-muted w-100 m-0 mt-3 fs-small ">
-          -- {report.source}
-        </p>
+        <div className="ll">
+          <span className="intensity-c">Intensity : {report.intensity}</span>
+          <span className="likelihood-c">Likelihood : {report.likelihood}</span>
+          <span className="relevance-c">Relevance : {report.relevance}</span>
+          <p className="title-c ll">
+            <h5>Title</h5>: {report.title && report.title}
+          </p>
+        </div>
+        <p className="source-c ll">-- {report.source}</p>
       </div>
     </div>
   );

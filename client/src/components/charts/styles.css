@@ -1,6 +1,52 @@
 .chart_box {    
-    margin: 20px;
-    padding: 30px;
-    background: #eeeeee;
+    margin: 20px 80px;
+    padding: 20px 80px;
+    background: white;
     border-radius: 10px;
+    border: 2px solid black;
 }
+
+.chart-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.double-charts{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+#pie_id{
+    margin: 20px 40px 20px 80px;
+    background: white;
+    border-radius: 10px;
+    border: 2px solid black;
+    height: 600px;
+    padding: 10px 10px 40px 40px;
+}
+
+#radar_id{
+    margin: 20px 80px 20px 40px;
+    background: white;
+    border-radius: 10px;
+    border: 2px solid black;
+    height: 600px;
+    padding: 10px 10px 40px 40px;
+}
+
+
+
+/* #bar_chart{
+    display: block;
+    box-sizing: border-box;
+    height: 400px;
+    width: 1500px;
+} */
+
+/* #bar_chart{
+    box-sizing: border-box;
+    height: 536px;
+    width: 1286px;
+} */
